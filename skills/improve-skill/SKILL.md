@@ -17,11 +17,13 @@ Skills compound only if they get better with use. This skill is the closing step
 
 ## Process
 
-### 1. Identify the just-used skill
+### 1. Identify the just-used skill and its source of truth
 
-Find the SKILL.md you used. Project skills: `.claude/skills/<name>/SKILL.md` (symlinks to `.agents/skills/<name>/`). Personal MP-pack skills under `~/.claude/skills/` are read-only here — propose upstream PRs separately, do not edit.
+Find the SKILL.md you used and where it actually syncs from:
 
-If the skill lives in `~/.claude/` or another non-project location, **stop and report** — improve-skill only writes inside this repo.
+- **Project skill** — `.claude/skills/<name>/SKILL.md` (often a symlink to `.agents/skills/<name>/`). Edit in place, commit to the project repo.
+- **Globally installed via `npx skills add`** — lives at `~/.agents/skills/<name>/` with a symlink at `~/.claude/skills/<name>/`. **Local edits are overwritten on the next `npx skills update`.** The source of truth is the GitHub repo it came from (check `~/.claude/skills/skills-lock.json` or `~/.agents/skills/skills-lock.json` for the `source: owner/repo` field). Clone that repo, edit `skills/<name>/SKILL.md` there, commit, push — or re-publish via the `skill-publisher` skill. Do **not** edit the local copy alone.
+- **Personal MP-pack skills under `~/.claude/skills/<name>/`** (not installed by `npx skills`, no lockfile entry) — read-only from this project; propose upstream PRs to mattpocock/skills.
 
 ### 2. Capture the delta
 
@@ -71,6 +73,7 @@ Body: 1-3 bullets matching §2 deltas. No co-author trailer unless an agent made
 - Renaming the skill (breaks invocation everywhere)
 - Editing other people's personal skills (`~/.claude/skills/...`)
 - Skipping the commit (improvements that never land are lost on next session)
+- Editing the local copy of a `npx skills`-installed skill without pushing back to its source repo (next `update` wipes the edit)
 
 ## Pairs with
 
