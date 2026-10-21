@@ -1,0 +1,8 @@
+{
+  "name": "culiga-skills",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "test:unit": "bun test"
+  }
+}
